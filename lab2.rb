@@ -55,22 +55,48 @@ def rps_game_winner(list)
 	end
 end
 
-def rps_tournament_winner(tournament)
-	tournament.each_with_index do |level,i|
+require 'debugger'
+def rps_tournament_winner(tournament)	
 		begin
-			match_level = level.first.first.is_a?(String)
+			match_level = (tournament.size == 2) && tournament.first.first.is_a?(String) && tournament[-1].first.is_a?(String)
 		rescue
-			match_level = true 
+			match_level = false
 		end
 
-		if match_level # Recurse if we are just another nested array
-			tournament = rps_game_winner(level)
-		elsif level.size > 1 # Case for nested arrays
-			tournament = rps_tournament_winner(level)
-	  else
-			
+		#debugger
+		if match_level
+			tournament = rps_game_winner(tournament)
+		else 
+			tournament.each_with_index do |level, i|
+				while !level.first.is_a? String
+					 level = rps_tournament_winner(level)
+				end
+				tournament[i] = level
+			end
 		end
-  end
+end
+
+def sort_str(str)
+	str.chars.sort { |a, b| a.casecmp(b) } .join
+end
+
+def combine_anagrams(words)
+	annagram_out=[]
+	words.each do |compare1|
+		curr_arr=[compare1]
+		compare1 = sort_str(compare1)
+
+		words.each do |compare2|
+			  next if compare2.eql?(curr_arr.first)	
+				if compare1.downcase.eql?(sort_str(compare2).downcase)
+					
+					puts compare1.downcase + " " + sort_str(compare2).downcase + "\n\n"
+					curr_arr << compare2 unle
+				end
+		end
+		annagram_out << curr_arr
+	end
+	puts annagram_out.to_s
 end
 
 a = [
@@ -84,4 +110,10 @@ a = [
 																						    ]
 																								]
 
-puts rps_tournament_winner(a)
+rps_tournament_winner(a)
+puts a
+
+
+
+b = ['cars', 'for', 'potatoes', 'racs', 'four', 'scar', 'creams', 'scream'] 
+combine_anagrams(b)
