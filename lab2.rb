@@ -56,22 +56,21 @@ def rps_game_winner(list)
 end
 
 def rps_tournament_winner(tournament)
-	tournament.each do |level|
-		if level.first.first.is_a? Array # Base case for a match
-	  	level = rps_tournament_winner(level)
-	  elsif level.first.size == 1
-			level = [level.first]
-		else
-			puts "Evaluating winner"
-			level = rps_game_winner(level)
+	tournament.each_with_index do |level,i|
+		begin
+			match_level = level.first.first.is_a?(String)
+		rescue
+			match_level = true 
 		end
-	end
-	
-	if tournament.size < 2
-		tournament.first
-	else
-		rps_tournament_winner(tournament).first
-	end
+
+		if match_level # Recurse if we are just another nested array
+			tournament = rps_game_winner(level)
+		elsif level.size > 1 # Case for nested arrays
+			tournament = rps_tournament_winner(level)
+	  else
+			
+		end
+  end
 end
 
 a = [
