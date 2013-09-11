@@ -91,29 +91,10 @@ def combine_anagrams(words)
 				if compare1.downcase.eql?(sort_str(compare2).downcase)
 					
 					puts compare1.downcase + " " + sort_str(compare2).downcase + "\n\n"
-					curr_arr << compare2 unle
+					curr_arr << compare2
 				end
 		end
-		annagram_out << curr_arr
+		annagram_out << curr_arr unless annagram_out.flatten.include? curr_arr.first
 	end
 	puts annagram_out.to_s
 end
-
-a = [
-    [
-		        [ ["Armando", "P"], ["Dave", "S"] ],
-						        [ ["Richard", "R"],  ["Michael", "S"] ],
-										    ],
-												    [
-														        [ ["Allen", "S"], ["Omer", "P"] ],
-																		        [ ["David E.", "R"], ["Richard X.", "P"] ]
-																						    ]
-																								]
-
-rps_tournament_winner(a)
-puts a
-
-
-
-b = ['cars', 'for', 'potatoes', 'racs', 'four', 'scar', 'creams', 'scream'] 
-combine_anagrams(b)
