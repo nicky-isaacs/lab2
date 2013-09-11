@@ -56,13 +56,13 @@ def rps_game_winner(list)
 end
 
 def rps_tournament_winner(tournament)
-	puts tournament	+ "\n\n\n\n\n\n\n\n\n\n\n"	
 	tournament.each do |level|
 		if level.first.first.is_a? Array # Base case for a match
 	  	level = rps_tournament_winner(level)
 	  elsif level.first.size == 1
 			level = [level.first]
 		else
+			puts "Evaluating winner"
 			level = rps_game_winner(level)
 		end
 	end
