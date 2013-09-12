@@ -77,4 +77,20 @@ class Fixnum
 	end
 end
 
+class CartesianProduct
 
+  include Enumerable
+
+	def initialize(input_a, input_b)
+		@elements=[]
+		input_a.each do |a|
+		  input_b.each do |b|
+				@elements << [a,b]
+			end
+		end
+	end
+	
+	def each(&block)
+		@elements.each{ |a| block.call(a) }
+	end
+end
