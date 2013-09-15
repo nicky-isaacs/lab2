@@ -56,16 +56,15 @@ def rps_game_winner(list)
 end
 
 def bracket_winner(array)
-	match_level = (array.size == 2) && (array.first.first.is_a? String)
-
-	if match_level
-		rps_game_winner(array)
-	else
-    array.each_with_index do |level, i|
-			array[i] = bracket_winner(level)
-		end
-		rps_game_winner(array)
+	local = array.dup
+	local.each_with_index do |arr, i|
+	  begin
+		  local[i] = rps_game_winner(arr)
+    rescue
+	    local[i] = bracket_winner(arr)
+	  end
 	end
+	rps_game_winner local
 end
 
 require 'debugger'
@@ -74,7 +73,7 @@ def rps_tournament_winner(tournament)
 	tournament.each_with_index do |bracket, i|
 		winners << bracket_winner(bracket)
 	end
-	rps_game_winner(winners)
+	rps_game_winner winners
 end
 
 #[
@@ -112,3 +111,16 @@ def combine_anagrams(words)
 	end
 	puts annagram_out.to_s
 end
+
+a = [
+    [
+		        [ ["Armando", "P"], ["Dave", "S"] ],
+						        [ ["Richard", "R"],  ["Michael", "S"] ],
+										    ],
+												    [
+														        [ ["Allen", "S"], ["Omer", "P"] ],
+																		        [ ["David E.", "R"], ["Richard X.", "P"] ]
+																						    ]
+																								]
+
+puts rps_tournament_winner(a)
