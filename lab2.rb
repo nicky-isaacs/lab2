@@ -55,26 +55,40 @@ def rps_game_winner(list)
 	end
 end
 
-require 'debugger'
-def rps_tournament_winner(tournament)	
-		begin
-			match_level = (tournament.size == 2) && tournament.first.first.is_a?(String) && tournament[-1].first.is_a?(String)
-		rescue
-			match_level = false
-		end
+def bracket_winner(array)
+	match_level = (array.size == 2) && (array.first.first.is_a? String)
 
-		#debugger
-		if match_level
-			tournament = rps_game_winner(tournament)
-		else 
-			tournament.each_with_index do |level, i|
-				while !level.first.is_a? String
-					 level = rps_tournament_winner(level)
-				end
-				tournament[i] = level
-			end
+	if match_level
+		rps_game_winner(array)
+	else
+    array.each_with_index do |level, i|
+			array[i] = bracket_winner(level)
 		end
+		rps_game_winner(array)
+	end
 end
+
+require 'debugger'
+def rps_tournament_winner(tournament)
+	winners=[]
+	tournament.each_with_index do |bracket, i|
+		winners << bracket_winner(bracket)
+	end
+	rps_game_winner(winners)
+end
+
+#[
+#  [
+#   [ [one, thing],[two, stuff] ],
+#		[
+#     [ [three, four], [five, six] ],
+#     [ [seve, eight], [nice, ten] ]
+#		]
+#  ],
+#  [
+#   [guy, thing],[other, stuff]
+#  ],
+#]
 
 def sort_str(str)
 	str.chars.sort { |a, b| a.casecmp(b) } .join
